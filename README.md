@@ -44,27 +44,30 @@ python main.py 10 5
 This starts a grid of 10x15.
 
 # 🧠 Features
-Real-time movement
+- Real-time movement
 
-Dynamic shrinking of the game board
+- Dynamic shrinking of the game board
 
-Center reset on each point
+- Center reset on each point
 
-Win condition based on points
+- Win condition based on points
 
-Simple visuals, but addictive gameplay
+- Simple visuals, but addictive gameplay
 
 # 🧪 Coming Soon (maybe...)
-Obstacles and hazards
+- Obstacles and hazards
 
-Enemies that move
+- Enemies that move
 
-Power-ups
+- Power-ups
 
-"CHAOS MODE" 🌀
+- "CHAOS MODE" 🌀
 
 # 💡 Idea
+
 This project was created for fun and experimentation —
 a bite-sized arcade experience powered entirely by Python and your keyboard.
+
 ---
-Created with ❤️ and a little bit of frustration.
+
+Created with frustration and a little bit of ❤️.
