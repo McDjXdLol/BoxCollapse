@@ -9,7 +9,7 @@ import os
 GRID_SIZE = int(sys.argv[1])
 WIDTH_BONUS_SIZE = int(sys.argv[2])
 
-POINTS_TO_WIN = int(GRID_SIZE / 2)
+POINTS_TO_WIN = int(sys.argv[3])
 PLAYER_CHARACTER = "•"
 GRID_BACKGROUND = '‎'
 
@@ -47,6 +47,7 @@ class CreateGrid:
             print(output + f"\n{points}")
         else:
             print("YOU WON!")
+            sys.exit()
 
 # Class that is used to manage player movement
 class MovementManager:
@@ -123,8 +124,12 @@ if __name__ == "__main__":
                 player_points += 1
                 if player_points >= POINTS_TO_WIN:
                     grid_manager.has_won = True
-                movement_manager.player_position = [int(GRID_SIZE/2), int((GRID_SIZE+WIDTH_BONUS_SIZE)/2)]
+                    continue
                 GRID_SIZE -= 1
+                if GRID_SIZE <= 1:
+                    grid_manager.has_won = True
+                    continue
+                movement_manager.player_position = [int(GRID_SIZE/2), int((GRID_SIZE+WIDTH_BONUS_SIZE)/2)]
                 grid_manager.create_grid(GRID_SIZE)
                 pointed = True
                 random_pos = [random.randint(0, GRID_SIZE), random.randint(0, GRID_SIZE + WIDTH_BONUS_SIZE)]
