@@ -7,12 +7,33 @@ import time
 import keyboard
 
 # Global variables
-GRID_SIZE = int(sys.argv[1])
-WIDTH_BONUS_SIZE = int(sys.argv[2])
-GRID_BACKGROUND = '‎'
+while True:
+    GRID_SIZE = 0
+    WIDTH_BONUS_SIZE = 0
+    POINTS_TO_WIN = 1
+    try:
+        GRID_SIZE = int(input("Enter the grid size: "))
+        WIDTH_BONUS_SIZE = int(input("Enter the bonus width: "))
 
-# Player data
-POINTS_TO_WIN = int(sys.argv[3])
+        # Player data
+        POINTS_TO_WIN = int(input("Enter the number of points required to win: "))
+    except ValueError:
+        print("Invalid input! Please enter a valid number.")
+        continue
+
+    if GRID_SIZE <= 0:
+        print("Grid size must be greater than 0. Please try again.")
+        continue
+
+    if WIDTH_BONUS_SIZE < 0:
+        print("Bonus width cannot be negative. Please enter a valid value.")
+        continue
+
+    if POINTS_TO_WIN <= 0:
+        print("Points to win must be greater than 0. Try again.")
+        continue
+
+GRID_BACKGROUND = '‎'
 PLAYER_CHARACTER = "•"
 
 
@@ -51,7 +72,9 @@ class CreateGrid:
         if not self.has_won:
             print(output + f"\n{points}")
         else:
+            start_clear()
             print("YOU WON!")
+            time.sleep(3)
             sys.exit()
 
 
