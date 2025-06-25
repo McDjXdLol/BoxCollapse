@@ -1,9 +1,10 @@
 # Imports
-import random
-import time
-import keyboard
-import sys
 import os
+import random
+import sys
+import time
+
+import keyboard
 
 # Constant global variables
 GRID_SIZE = int(sys.argv[1])
@@ -13,13 +14,16 @@ POINTS_TO_WIN = int(sys.argv[3])
 PLAYER_CHARACTER = "•"
 GRID_BACKGROUND = '‎'
 
+
 # Function to clear the console on the start
 def start_clear():
     os.system('cls')
 
+
 # Function for clearing the console
 def clear_console():
     print("\033[H", end="")
+
 
 # Class that is used to create, refresh, print grid
 class CreateGrid:
@@ -30,14 +34,14 @@ class CreateGrid:
     # Function that is used to create/refresh grid
     def create_grid(self, grid_size):
         self.grid = []
-        for x_cord, x in enumerate(range(0, grid_size+1)):
+        for x_cord, x in enumerate(range(grid_size + 1)):
             self.grid.append([])
-            for y in range(0, grid_size+1+WIDTH_BONUS_SIZE):
+            for y in range(grid_size + 1 + WIDTH_BONUS_SIZE):
                 self.grid[x_cord].append(GRID_BACKGROUND)
 
     # Function that is used to print grid in one print
     def print_grid(self, points):
-        output = "|" + ("‾" * (GRID_SIZE + WIDTH_BONUS_SIZE+1)) + "|\n|"
+        output = "|" + ("‾" * (GRID_SIZE + WIDTH_BONUS_SIZE + 1)) + "|\n|"
         for x in self.grid:
             for y in x:
                 output += y
@@ -49,10 +53,11 @@ class CreateGrid:
             print("YOU WON!")
             sys.exit()
 
+
 # Class that is used to manage player movement
 class MovementManager:
     def __init__(self, grid_size):
-        self.player_position = [int(GRID_SIZE/2), int((GRID_SIZE+WIDTH_BONUS_SIZE)/2)]
+        self.player_position = [1, 1]
         self.grid_size = grid_size
 
     def move_up(self):
@@ -71,6 +76,18 @@ class MovementManager:
         if self.player_position[1] < self.grid_size + WIDTH_BONUS_SIZE:
             self.player_position[1] += 1
 
+
+def randomize_obstacles():
+    randomized_obstacles = []
+    for _ in range(10):
+        random_x = random.randint(0, GRID_SIZE)
+        random_y = random.randint(0, GRID_SIZE + WIDTH_BONUS_SIZE)
+        if random_x == 1 and random_y == 1:
+            continue
+        randomized_obstacles.append([random_x, random_y])
+    return randomized_obstacles
+
+
 if __name__ == "__main__":
     # Preparing
     start_clear()
@@ -84,6 +101,9 @@ if __name__ == "__main__":
     FPS = 240
     frame_duration = 1 / FPS
     last_time = time.time()
+
+    # Adding obstacles
+    obstacles = randomize_obstacles()
 
     # Random trophy pos
     random_pos = [random.randint(0, GRID_SIZE), random.randint(0, GRID_SIZE + WIDTH_BONUS_SIZE)]
@@ -116,20 +136,32 @@ if __name__ == "__main__":
 
             # Manage printing
             grid_manager.create_grid(GRID_SIZE)
-            grid_manager.grid[movement_manager.player_position[0]][movement_manager.player_position[1]] = PLAYER_CHARACTER
+            grid_manager.grid[movement_manager.player_position[0]][
+                movement_manager.player_position[1]] = PLAYER_CHARACTER
             grid_manager.grid[random_pos[0]][random_pos[1]] = "X"
 
+            # Printing obstacles
+            for obstacle in obstacles:
+                if obstacle[0] == random_pos[0] and obstacle[1] == random_pos[1]:
+                    continue
+                if obstacle[0] == movement_manager.player_position[0] and obstacle[1] == movement_manager.player_position[1]:
+                    print("GAME OVER!")
+                    sys.exit()
+                grid_manager.grid[obstacle[0]][obstacle[1]] = "#"
+
             # Got score
-            if movement_manager.player_position[0] == random_pos[0] and movement_manager.player_position[1] == random_pos[1]:
+            if movement_manager.player_position[0] == random_pos[0] and movement_manager.player_position[1] == \
+                    random_pos[1]:
+                GRID_SIZE -= 1
+                obstacles = randomize_obstacles()
                 player_points += 1
                 if player_points >= POINTS_TO_WIN:
                     grid_manager.has_won = True
                     continue
-                GRID_SIZE -= 1
                 if GRID_SIZE <= 1:
                     grid_manager.has_won = True
                     continue
-                movement_manager.player_position = [int(GRID_SIZE/2), int((GRID_SIZE+WIDTH_BONUS_SIZE)/2)]
+                movement_manager.player_position = [1, 1]
                 grid_manager.create_grid(GRID_SIZE)
                 pointed = True
                 random_pos = [random.randint(0, GRID_SIZE), random.randint(0, GRID_SIZE + WIDTH_BONUS_SIZE)]
