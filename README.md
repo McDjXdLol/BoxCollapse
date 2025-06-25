@@ -48,20 +48,13 @@ This starts a grid of 10x15.
 
 - Dynamic shrinking of the game board
 
+- Obstacles
+
 - Center reset on each point
 
 - Win condition based on points
 
 - Simple visuals, but addictive gameplay
-
-# 🧪 Coming Soon (maybe...)
-- Obstacles and hazards
-
-- Enemies that move
-
-- Power-ups
-
-- "CHAOS MODE" 🌀
 
 # 💡 Idea
 
