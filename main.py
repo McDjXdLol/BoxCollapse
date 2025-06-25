@@ -6,13 +6,14 @@ import time
 
 import keyboard
 
-# Constant global variables
+# Global variables
 GRID_SIZE = int(sys.argv[1])
 WIDTH_BONUS_SIZE = int(sys.argv[2])
+GRID_BACKGROUND = '‎'
 
+# Player data
 POINTS_TO_WIN = int(sys.argv[3])
 PLAYER_CHARACTER = "•"
-GRID_BACKGROUND = '‎'
 
 
 # Function to clear the console on the start
@@ -109,6 +110,7 @@ if __name__ == "__main__":
     random_pos = [random.randint(0, GRID_SIZE), random.randint(0, GRID_SIZE + WIDTH_BONUS_SIZE)]
     while True:
         pointed = False
+
         # FPS Management
         current_time = time.time()
         elapsed = current_time - last_time
@@ -134,24 +136,25 @@ if __name__ == "__main__":
             elif keyboard.is_pressed('esc'):
                 sys.exit()
 
+            # Getting actuall player position
+            player_pos = [movement_manager.player_position[0], movement_manager.player_position[1]]
+
             # Manage printing
             grid_manager.create_grid(GRID_SIZE)
-            grid_manager.grid[movement_manager.player_position[0]][
-                movement_manager.player_position[1]] = PLAYER_CHARACTER
+            grid_manager.grid[player_pos[0]][player_pos[1]] = PLAYER_CHARACTER
             grid_manager.grid[random_pos[0]][random_pos[1]] = "X"
 
             # Printing obstacles
             for obstacle in obstacles:
                 if obstacle[0] == random_pos[0] and obstacle[1] == random_pos[1]:
                     continue
-                if obstacle[0] == movement_manager.player_position[0] and obstacle[1] == movement_manager.player_position[1]:
+                if obstacle[0] == player_pos[0] and obstacle[1] == player_pos[1]:
                     print("GAME OVER!")
                     sys.exit()
                 grid_manager.grid[obstacle[0]][obstacle[1]] = "#"
 
             # Got score
-            if movement_manager.player_position[0] == random_pos[0] and movement_manager.player_position[1] == \
-                    random_pos[1]:
+            if player_pos[0] == random_pos[0] and player_pos[1] == random_pos[1]:
                 GRID_SIZE -= 1
                 obstacles = randomize_obstacles()
                 player_points += 1
@@ -173,4 +176,5 @@ if __name__ == "__main__":
             else:
                 clear_console()
             grid_manager.print_grid(f"POINTS: {player_points}")
+
             last_time = current_time
