@@ -61,6 +61,9 @@ This starts a grid of 10x15.
 This project was created for fun and experimentation —
 a bite-sized arcade experience powered entirely by Python and your keyboard.
 
+# 📄 License
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
 ---
 
 Created with frustration and a little bit of ❤️.
